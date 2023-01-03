@@ -1,7 +1,9 @@
 package guru.springfamework.api.bootstrap;
 
 import guru.springfamework.domain.Category;
+import guru.springfamework.domain.Customer;
 import guru.springfamework.repositories.CategoryRepository;
+import guru.springfamework.repositories.CustomerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -9,13 +11,48 @@ import org.springframework.stereotype.Component;
 public class BootStrap implements CommandLineRunner {
 
     private CategoryRepository categoryRepository;
+    private CustomerRepository customerRepository;
 
-    public BootStrap(CategoryRepository categoryRepository) {
+    public BootStrap(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
         this.categoryRepository = categoryRepository;
+        this.customerRepository = customerRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
+       loadCategories();
+       loadCustomers();
+    }
+    private void loadCustomers() {
+        Customer customer1 = new Customer();
+        customer1.setFirstname("Joe");
+        customer1.setLastname("buck");
+
+        Customer customer2 = new Customer();
+        customer2.setFirstname("Joe");
+        customer2.setLastname("Newman");
+
+        Customer customer3 = new Customer();
+        customer3.setFirstname("Michael");
+        customer3.setLastname("Lacha");
+
+        Customer customer4 = new Customer();
+        customer4.setFirstname("David");
+        customer4.setLastname("buck");
+
+        Customer customer5 = new Customer();
+        customer5.setFirstname("Sean");
+        customer5.setLastname("buck");
+
+        customerRepository.save(customer1);
+        customerRepository.save(customer2);
+        customerRepository.save(customer3);
+        customerRepository.save(customer4);
+        customerRepository.save(customer5);
+        System.out.println("Data Loaded = " + customerRepository.count());
+    }
+
+    private void loadCategories() {
         Category fruits = new Category();
         fruits.setName("Fruits");
 
@@ -36,6 +73,5 @@ public class BootStrap implements CommandLineRunner {
         categoryRepository.save(exotic);
         categoryRepository.save(nuts);
         System.out.println("Data Loaded = " + categoryRepository.count());
-
     }
 }
